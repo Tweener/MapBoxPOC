@@ -1,0 +1,66 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'me.tatarka.retrolambda'
+
+repositories {
+    maven { url 'https://maven.google.com' }
+    mavenCentral()
+}
+
+final BUTTERKNIFE_VERSION = '8.4.0'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        applicationId "com.tweener.mapbox"
+        minSdkVersion 19
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testCompile 'junit:junit:4.12'
+
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    // Butterknife
+    compile "com.jakewharton:butterknife:${BUTTERKNIFE_VERSION}"
+    kapt "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_VERSION}"
+
+    // MapBox
+    compile('com.mapbox.mapboxsdk:mapbox-android-sdk:5.1.3@aar') {
+        transitive = true
+    }
+
+    // Mapbox plugins
+    compile 'com.mapbox.mapboxsdk:mapbox-android-plugin-locationlayer:0.1.0'
+
+    // Kotlin
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+}
